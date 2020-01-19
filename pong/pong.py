@@ -42,7 +42,13 @@ ball.goto(0, 0)
 ball.dx = 0.2
 ball.dy = 0.2
 
-
+# Pen
+pen = turtle.Turtle()
+pen.speed(0)
+pen.color("white")
+pen.penup()
+pen.hideturtle()
+pen.goto(0, 260)
 
 
 def move_a_up():
