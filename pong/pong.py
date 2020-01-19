@@ -1,5 +1,6 @@
 import turtle
-
+import os
+import playsound
 HEIGHT = 600
 WIDTH = 800
 
@@ -10,6 +11,9 @@ wn.setup(width=WIDTH, height=HEIGHT)
 wn.tracer(0)
 
 
+# Score
+score_a = 0
+score_b = 0
 
 
 # Paddle A
@@ -49,6 +53,7 @@ pen.color("white")
 pen.penup()
 pen.hideturtle()
 pen.goto(0, 260)
+pen.write("PLayer A: {} PlayerB: {} " .format(score_a,score_b), align="center", font=("Courier", 24, "normal"))
 
 
 def move_a_up():
@@ -71,7 +76,7 @@ def move_b_down():
     y -= 20
     paddle_b.sety(y)
 
-
+file = "bounce.wav"
 wn.listen()
 wn.onkeypress(move_a_up, "w")
 wn.onkeypress(move_a_down, "s")
@@ -86,19 +91,31 @@ while True:
     ball.setx(ball.xcor() + ball.dx)
     ball.sety(ball.ycor() + ball.dy)
     print(ball.ycor())
+
     # Border checking
-    if ball.ycor() > 290:
-        ball.sety(290)
+    if ball.ycor() > 285:
+        ball.sety(285)
         ball.dy *= -1
-    if ball.ycor() < -290:
-        ball.sety(-290)
+       # os.system("mpg123" + file)
+        playsound.playsound('bounce.wav', False)
+
+    if ball.ycor() < -285:
+        ball.sety(-285)
         ball.dy *= -1
+        playsound.playsound('bounce.wav', False)
     if ball.xcor() > 390:
         ball.goto(0, 0)
         ball.dx *= -1
+        score_a += 1
+        pen.clear()
+        pen.write("PLayer A: {} PlayerB: {} ".format(score_a, score_b), align="center", font=("Courier", 24, "normal"))
+
     if ball.xcor() < -390:
         ball.goto(0, 0)
         ball.dx *= -1
+        score_b += 1
+        pen.clear()
+        pen.write("PLayer A: {} PlayerB: {} ".format(score_a, score_b), align="center", font=("Courier", 24, "normal"))
 
     if (ball.xcor() > 340 and ball.xcor() <350) and (paddle_b.ycor() + 50 > ball.ycor() > paddle_b.ycor() - 50):
         ball.setx(340)
